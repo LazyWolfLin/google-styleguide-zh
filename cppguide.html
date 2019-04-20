@@ -190,38 +190,64 @@ input.</p> -->
 
  
 
+<!--
+<h2 id="C++_Version">C++ Version</h2>
+-->
 <h2 id="C++_Version">C++ 版本</h2>
 
+<!--
 <p>
 Currently, code should target C++11, i.e., should not use C++14 or
 C++17 features. The C++ version targeted by this guide will advance
 (aggressively) over time.</p>
+-->
+<p>
+当前，代码应当使用 C++11，即，不应使用 C++14 或者 C++17 的特性。本指南使用的 C++ 版本将会随时间（积极地）推进。</p>
 
+<!--
 <p>
 Code should avoid features that have been removed from
 the latest language version (currently C++17), as well as the rare
 cases where code has a different meaning in that latest version.
 Use of some C++ features is restricted or disallowed.  Do not use
 <a href="#Nonstandard_Extensions">non-standard extensions</a>.</p>
+-->
+<p>
+代码应当避免从最新的语言版本（当前是 C++17）中删去的功能，以及代码中在最新版本中有不同含义的罕见情况。限制或禁止使用某些 C++ 特性。不要使用<a href="#Nonstandard_Extensions">非标准扩展</a>。</p>
 
 
 
+<!--
 <h2 id="Header_Files">Header Files</h2>
+-->
+<h2 id="Header_Files">头文件</h2>
 
+<!--
 <p>In general, every <code>.cc</code> file should have an
 associated <code>.h</code> file. There are some common
 exceptions, such as  unittests and
 small <code>.cc</code> files containing just a
 <code>main()</code> function.</p>
+-->
+<p>一般来说，每个 <code>.cc</code> 文件都应该有一个对应的 <code>.h</code> 文件。也有一些常见的例外，例如单元测试代码和只包含 <code>main()</code> 函数的小型 <code>.cc</code> 文件。</p>
 
+<!--
 <p>Correct use of header files can make a huge difference to
 the readability, size and performance of your code.</p>
+-->
+<p>正确使用头文件会对你的代码的可读性，大小和性能产生巨大的影响。</p>
 
+<!--
 <p>The following rules will guide you through the various
 pitfalls of using header files.</p>
+-->
+<p>以下规则将指导你规避使用头文件的各种陷阱。</p>
 
 <a id="The_-inl.h_Files"></a>
+<!--
 <h3 id="Self_contained_Headers">Self-contained Headers</h3>
+-->
+<h3 id="Self_contained_Headers">Self-contained 头文件</h3>
 
 <div class="summary">
 <p>Header files should be self-contained (compile on their own) and
