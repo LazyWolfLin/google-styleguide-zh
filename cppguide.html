@@ -343,49 +343,74 @@ guard:</p>
 
 </div> 
 
+<!--
 <h3 id="Forward_Declarations">Forward Declarations</h3>
+-->
+<h3 id="Forward_Declarations">前置声明</h3>
 
 <div class="summary">
+<!--
   <p>Avoid using forward declarations where possible.
   Just <code>#include</code> the headers you need.</p>
+-->
+  <p>尽可能避免使用前置声明。仅仅 <code>#include</code> 你需要的头文件。</p>
 </div>
 
 <div class="stylebody">
 
 <div class="definition">
+<!--
 <p>A "forward declaration" is a declaration of a class,
 function, or template without an associated definition.</p>
+-->
+<p>“前置声明（forward declaration）”是类、函数或模板不带定义的声明。</p>
 </div>
 
 <div class="pros">
 <ul>
+<!--
   <li>Forward declarations can save compile time, as
   <code>#include</code>s force the compiler to open
   more files and process more input.</li>
+-->
+  <li>前置声明可以节省编译时间，因为大量的 <code>#include</code>s 会令编译器展开更多的文件并且处理更多的输入。</li>
 
+<!--
   <li>Forward declarations can save on unnecessary
   recompilation. <code>#include</code>s can force
   your code to be recompiled more often, due to unrelated
   changes in the header.</li>
+-->
+  <li>前置声明可以节省不必要的重新编译时间。<code>#include</code>s 会使你因为头文件中无关的更改而更频繁地重新编译你的代码。</li>
 </ul>
 </div>
 
 <div class="cons">
 <ul>
+<!--
   <li>Forward declarations can hide a dependency, allowing
   user code to skip necessary recompilation when headers
   change.</li>
+-->
+  <li>前置声明会隐藏依赖关系，从而允许用户代码在头文件更改时跳过必要的重新编译。</li>
 
+<!--
   <li>A forward declaration may be broken by subsequent
   changes to the library. Forward declarations of functions
   and templates can prevent the header owners from making
   otherwise-compatible changes to their APIs, such as
   widening a parameter type, adding a template parameter
   with a default value, or migrating to a new namespace.</li>
+-->
+  <li>对于代码库的后续更改可能会破坏前置声明。函数和模板的前置声明会阻碍头文件开发者对其 APIs 进行其他方面的兼容更改，例如扩展参数类型，添加模板参数的默认值或者迁移到新的命名空间。</li>
 
+<!--
   <li>Forward declaring symbols from namespace
   <code>std::</code> yields undefined behavior.</li>
+-->
+  <li>前置声明来自命名空间 <code>std::</code> 内的符号属于未定义行为。</li>
 
+<!--
   <li>It can be difficult to determine whether a forward
   declaration or a full <code>#include</code> is needed.
   Replacing an <code>#include</code> with a forward
@@ -405,14 +430,34 @@ function, or template without an associated definition.</p>
   decls for <code>B</code> and <code>D</code>,
   <code>test()</code> would call <code>f(void*)</code>.
   </li>
+-->
+  <li>很难判断代码需要使用前置声明还是需要使用完整的 <code>#include</code>。而使用前置声明代替 <code>#include</code> 会隐蔽地改变代码的含义：
+      <pre>      // b.h:
+      struct B {};
+      struct D : B {};
 
+      // good_user.cc:
+      #include "b.h"
+      void f(B*);
+      void f(void*);
+      void test(D* x) { f(x); }  // calls f(B*)
+      </pre>
+  如果 <code>#include</code> 被 <code>B</code> 和 <code>D</code> 的前置声明代替，那么 <code>test()</code> 将会调用函数 <code>f(void*)</code>。
+  </li>
+
+<!--
   <li>Forward declaring multiple symbols from a header
   can be more verbose than simply
   <code>#include</code>ing the header.</li>
+-->
+  <li>在一个头文件中前置声明多个符号会比简单地 <code>#include</code> 一个头文件更冗长。</li>
 
+<!--
   <li>Structuring code to enable forward declarations
   (e.g. using pointer members instead of object members)
   can make the code slower and more complex.</li>
+-->
+  <li>构建支持前置声明的代码（例如，使用指针成员代替对象成员）会让代码性能更慢、结构更复杂。</li>
 
   
 </ul>
@@ -420,18 +465,30 @@ function, or template without an associated definition.</p>
 
 <div class="decision">
 <ul>
+<!--
   <li>Try to avoid forward declarations of entities
   defined in another project.</li>
+-->
+  <li>尽量避免前置声明那些定义在另一个项目中的实体。</li>
 
+<!--
   <li>When using a function declared in a header file,
   always <code>#include</code> that header.</li>
+-->
+  <li>使用头文件中声明的函数时，始终 <code>#include</code> 该头文件。</li>
 
+<!--
   <li>When using a class template, prefer to
   <code>#include</code> its header file.</li>
+-->
+  <li>使用类模板时，优先 <code>#include</code> 它的头文件。</li>
 </ul>
 
+<!--
 <p>Please see <a href="#Names_and_Order_of_Includes">Names and Order
 of Includes</a> for rules about when to #include a header.</p>
+-->
+<p>请参阅“<a href="#Names_and_Order_of_Includes"><code>#include</code> 的路径和顺序</a>”以了解关于包含头文件时机的规则。</p>
 </div>
 
 </div> 
@@ -491,7 +548,10 @@ mutators.</p>
 
 </div> 
 
+<!--
 <h3 id="Names_and_Order_of_Includes">Names and Order of Includes</h3>
+-->
+<h3 id="Names_and_Order_of_Includes"><code>#include</code> 的路径和顺序</h3>
 
 <div class="summary">
 <p>Use standard order for readability and to avoid hidden
