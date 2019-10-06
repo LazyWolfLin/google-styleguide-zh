@@ -493,29 +493,43 @@ of Includes</a> for rules about when to #include a header.</p>
 
 </div> 
 
+<!--
 <h3 id="Inline_Functions">Inline Functions</h3>
+-->
+<h3 id="Inline_Functions">内联函数</h3>
 
 <div class="summary">
+<!--
 <p>Define functions inline only when they are small, say, 10
 lines or fewer.</p>
+-->
+<p>当且仅当函数比较小时，例如不多于十行，才能将它们定义为内联函数。</p>
 </div>
+
 
 <div class="stylebody">
 
 <div class="definition">
+<!--
 <p>You can declare functions in a way that allows the compiler to expand
 them inline rather than calling them through the usual
 function call mechanism.</p>
+-->
+<p>你可以声明函数为内联函数以允许编译器以内联的方式展开它们，而不是通过以往的函数调用机制来调用它们。</p>
 </div>
 
 <div class="pros">
+<!--
 <p>Inlining a function can generate more efficient object
 code, as long as the inlined function is small. Feel free
 to inline accessors and mutators, and other short,
 performance-critical functions.</p>
+-->
+<p>只要被内联的函数足够短，那么内联一个函数就能生成更高效的目标代码。请随意地内联数据存取函数，以及其他函数体比较短的关键性能函数。</p>
 </div>
 
 <div class="cons">
+<!--
 <p>Overuse of inlining can actually make programs slower.
 Depending on a function's size, inlining it can cause the
 code size to increase or decrease. Inlining a very small
@@ -523,19 +537,28 @@ accessor function will usually decrease code size while
 inlining a very large function can dramatically increase
 code size. On modern processors smaller code usually runs
 faster due to better use of the instruction cache.</p>
+-->
+<p>滥用内联声明会导致程序实际上变得更慢。内联本身可能导致目标代码大小的增加或缩小，这取决于内联函数的大小。内联一个非常小的数据存取函数通常会使代码缩短，而内联一个非常大的函数则会大幅增加代码大小。在现代处理器上，由于能够更好的利用指令缓存，因此较短的代码通常能够运行得更快。</p>
 </div>
 
 <div class="decision">
+<!--
 <p>A decent rule of thumb is to not inline a function if
 it is more than 10 lines long. Beware of destructors,
 which are often longer than they appear because of
 implicit member- and base-destructor calls!</p>
+-->
+<p>一个较合理的经验规则是不要内联超过十行的函数。谨慎考虑析构函数，由于调用了隐含的成员析构和基类析构，析构函数往往比表面看起来更长！</p>
 
+<!--
 <p>Another useful rule of thumb: it's typically not cost
 effective to inline functions with loops or switch
 statements (unless, in the common case, the loop or
 switch statement is never executed).</p>
+-->
+<p>另一个实用的经验准则是内联包含循环或者 <code>switch</code> 的函数通常并不划算（除非，在通常情况下，永远不会执行到循环或者 <code>switch</code>）。</p>
 
+<!--
 <p>It is important to know that functions are not always
 inlined even if they are declared as such; for example,
 virtual and recursive functions are not normally inlined.
@@ -544,6 +567,8 @@ main reason for making a virtual function inline is to
 place its definition in the class, either for convenience
 or to document its behavior, e.g., for accessors and
 mutators.</p>
+-->
+<p>有一点很重要的是尽管函数被声明为内联函数，也编译器也不一定进行内联，例如虚函数和递归函数不会被正常内联。通常情况下，递归函数不应被声明为内联。而声明虚函数内联的主要原因是为了方便或者是作为文档记录，例如数据存取函数，从而将虚函数的定义放在类定义中。</p>
 </div> 
 
 </div> 
