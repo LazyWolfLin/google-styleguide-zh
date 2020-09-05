@@ -579,12 +579,16 @@ mutators.</p>
 <h3 id="Names_and_Order_of_Includes"><code>#include</code> 的路径和顺序</h3>
 
 <div class="summary">
+<!--
 <p>Use standard order for readability and to avoid hidden
 dependencies: Related header, C library, C++ library,  other libraries'
 <code>.h</code>, your project's <code>.h</code>.</p>
+-->
+<p>使用合理的头文件包含顺序能够增强可读性，避免隐含依赖：相关头文件、C 标准库头文件、C++ 标准库头文件、第三方库头文件、本项目头文件。</p>
 </div>
 
 <div class="stylebody">
+<!--
 <p>
 All of a project's header files should be
 listed as descendants of the project's source
@@ -594,37 +598,68 @@ directory without use of UNIX directory shortcuts
 
 <code>google-awesome-project/src/base/logging.h</code>
 should be included as:</p>
+-->
+<p>
+本项目的头文件应按项目源代码目录的子目录进行表示，而不应使用 UNIX 的快捷目录 <code>.</code>（当前目录）或 <code>..</code>（父目录）。例如，<code>google-awesome-project/src/base/logging.h</code> 应当这样子包含：</p>
 
 <pre>#include "base/logging.h"
 </pre>
 
+<!--
 <p>In <code><var>dir/foo</var>.cc</code> or
 <code><var>dir/foo_test</var>.cc</code>, whose main
 purpose is to implement or test the stuff in
 <code><var>dir2/foo2</var>.h</code>, order your includes
 as follows:</p>
+-->
+<p>在 <code><var>dir2/foo2</var>.h</code> 的实现文件 <code><var>dir/foo</var>.cc</code> 或者测试文件 <code><var>dir/foo_test</var>.cc</code> 中, 头文件的包含顺序如下：</p>
 
 <ol>
+<!--
+  <li><code><var>dir2/foo2</var>.h</code>.</li>
+-->
   <li><code><var>dir2/foo2</var>.h</code>.</li>
 
+<!--
   <li>A blank line</li>
+-->
+  <li>空行</li>
 
+<!--
   <li>C system files.</li>
+-->
+  <li>C 标准库头文件。</li>
 
+<!--
   <li>C++ system files.</li>
+-->
+  <li>C++ 标准库头文件。</li>
 
+<!--
   <li>A blank line</li>
+-->
+  <li>空行</li>
 
+<!--
   <li>Other libraries' <code>.h</code>
   files.</li>
+-->
+  <li>第三方库头文件。</li>
 
+<!--
   <li>
   Your project's <code>.h</code>
   files.</li>
+-->
+  <li>你项目的其他头文件</li>
 </ol>
 
+<!--
 <p>Note that any adjacent blank lines should be collapsed.</p>
+-->
+<p>请注意，任何相邻的空行都应该合并。</p>
 
+<!--
 <p>With the preferred ordering, if
 <code><var>dir2/foo2</var>.h</code> omits any necessary
 includes, the build of <code><var>dir/foo</var>.cc</code>
@@ -632,24 +667,32 @@ or <code><var>dir/foo</var>_test.cc</code> will break.
 Thus, this rule ensures that build breaks show up first
 for the people working on these files, not for innocent
 people in other packages.</p>
+-->
+<p>按照这种优先顺序，能够保证在 <code><var>dir2/foo2</var>.h</code> 遗漏某些必要的头文件时，<code><var>dir/foo</var>.cc</code> 或者 <code><var>dir/foo</var>_test.cc</code> 的构建就会立刻中止。因此，这一条规则能保证首先看到构建失败的人是这些文件的维护者而不是其他包的维护者。</p>
 
+<!--
 <p><code><var>dir/foo</var>.cc</code> and
 <code><var>dir2/foo2</var>.h</code> are usually in the same
 directory (e.g. <code>base/basictypes_test.cc</code> and
 <code>base/basictypes.h</code>), but may sometimes be in different
 directories too.</p>
+-->
+<p><code><var>dir/foo</var>.cc</code> 和 <code><var>dir2/foo2</var>.h</code> 通常在同一目录下（例如，<code>base/basictypes_test.cc</code> 和 <code>base/basictypes.h</code>），但有时也可能在不同目录下。</p>
 
-
-
+<!--
 <p>Note that the C compatibility headers such as <code>stddef.h</code>
 are essentially interchangeable with their C++ counterparts
 (<code>cstddef</code>)
 Either style is acceptable, but prefer consistency with existing code.</p>
+-->
+<p>注意，<code>stddef.h</code> 这类 C 兼容头文件本质上是可以同 C++ 风格头文件（<code>cstddef</code>）互换。无论使用哪一种风格的头文件都可以，但最好同现有代码保持一致。</p>
 
-<p>Within each section the includes should be ordered
+<!-- <p>Within each section the includes should be ordered
 alphabetically. Note that older code might not conform to
-this rule and should be fixed when convenient.</p>
+this rule and should be fixed when convenient.</p> -->
+<p>在头文件的每个部分中应该按照字母序排序。注意，早期的代码可能不符合本规则需要在合适的时候修正。</p>
 
+<!--
 <p>You should include all the headers that define the symbols you rely
 upon, except in the unusual case of <a href="#Forward_Declarations">forward
 declaration</a>. If you rely on symbols from <code>bar.h</code>,
@@ -660,12 +703,16 @@ to provide you the symbols of <code>bar.h</code>.  However, any
 includes present in the related header do not need to be included
 again in the related <code>cc</code> (i.e., <code>foo.cc</code> can
 rely on <code>foo.h</code>'s includes).</p>
+-->
+<p>你需要包含所有定义了你依赖的符号的头文件，除了特殊情况<a href="#Forward_Declarations">前置声明</a>。如果你依赖来自 <code>bar.h</code>，不要期待你包含的 <code>foo.h</code> （当前）已经包含了 <code>bar.h</code>，主动去包含 <code>bar.h</code>，除非 <code>foo.h</code> 明确表明它将为你提供 <code>bar.h</code> 中的符号。当然，任何在头文件中已经包含的 includes 都不需要再次在关联的 <code>cc</code> 中包含（例如，<code>foo.cc</code> 可以依赖于 <code>foo.h</code>）。</p>
 
+<!--
 <p>For example, the includes in
 
 <code>google-awesome-project/src/foo/internal/fooserver.cc</code>
 might look like this:</p>
-
+-->
+<p>例如，<code>google-awesome-project/src/foo/internal/fooserver.cc</code> 的 includes 可能如下：</p>
 
 <pre>#include "foo/server/fooserver.h"
 
@@ -678,10 +725,13 @@ might look like this:</p>
 #include "foo/server/bar.h"
 </pre>
 
+<!--
 <p class="exception">Sometimes, system-specific code needs
 conditional includes. Such code can put conditional
 includes after other includes. Of course, keep your
 system-specific code small and localized. Example:</p>
+-->
+<p class="exception">有时候，一些平台特定的代码需要条件预处理。这些代码可以放到其它 includes 之后。当然，你的平台特定代码需要短小且独立。比如：</p>
 
 <pre>#include "foo/public/fooserver.h"
 
